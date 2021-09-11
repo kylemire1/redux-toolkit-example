@@ -1,4 +1,4 @@
-import { COUNTER_AMOUNTADDED, COUNTER_INCREMENTED } from './types'
+import { COUNTER_AMOUNT_ADDED, COUNTER_INCREMENTED } from './types'
 let initialState = { value: 0 }
 
 const counterReducer = (state = initialState, action: any) => {
@@ -6,7 +6,7 @@ const counterReducer = (state = initialState, action: any) => {
 
   if (action.type === COUNTER_INCREMENTED) {
     newState.value = newState.value + 1
-  } else if (action.type === COUNTER_AMOUNTADDED) {
+  } else if (action.type === COUNTER_AMOUNT_ADDED) {
     newState.value += action.payload ?? 0
   }
 

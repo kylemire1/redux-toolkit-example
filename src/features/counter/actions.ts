@@ -1,4 +1,4 @@
-import { COUNTER_AMOUNTADDED, COUNTER_INCREMENTED } from './types'
+import { COUNTER_AMOUNT_ADDED, COUNTER_INCREMENTED } from './types'
 
 export const incremented = () => {
   return {
@@ -8,7 +8,7 @@ export const incremented = () => {
 
 export const amountAdded = (amount: number) => {
   return {
-    type: COUNTER_AMOUNTADDED,
+    type: COUNTER_AMOUNT_ADDED,
     payload: amount,
   }
 }

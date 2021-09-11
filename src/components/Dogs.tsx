@@ -1,31 +1,14 @@
 import React, { useState, useEffect } from 'react'
-
-interface Breed {
-  id: string
-  name: string
-  image: {
-    url: string
-  }
-}
+import { useDispatch, useSelector } from 'react-redux'
+import { breedsFetched } from '../features/dogs/actions'
 
 const Dogs = () => {
-  const [dogs, setDogs] = useState<Array<Breed>>([])
   const [numDogs, setNumDogs] = useState(5)
-  const [loadingState, setLoadingState] = useState<'PENDING' | 'LOADING' | 'ERROR'>(
-    'PENDING'
-  )
-  const isLoading = loadingState === 'LOADING'
-  const isError = loadingState === 'ERROR'
+  const dispatch = useDispatch()
+  const { breeds: dogs, isLoading, isError } = useSelector((state: any) => state.dogs)
 
   useEffect(() => {
-    setLoadingState('LOADING')
-    fetch(`https://api.thedogapi.com/v1/breeds?limit=${numDogs}`)
-      .then((res) => res.json())
-      .then((result: Array<Breed>) => {
-        setDogs(result)
-        setLoadingState('PENDING')
-      })
-      .catch(() => setLoadingState('ERROR'))
+    dispatch(breedsFetched(numDogs))
   }, [numDogs])
 
   return (
@@ -58,13 +41,13 @@ const Dogs = () => {
         }}
       >
         {isError && <h1>Error fetching dogs</h1>}
-        {dogs.map((breed: any) => {
+        {dogs.map((d: any) => {
           return (
-            <div key={breed.id}>
-              <h2>{breed.name}</h2>
+            <div key={d.id}>
+              <h2>{d.name}</h2>
               <img
-                src={breed.image.url}
-                alt={breed.name}
+                src={d.image.url}
+                alt={d.name}
                 style={{ objectFit: 'cover', width: '100%', height: '350px' }}
               />
             </div>
