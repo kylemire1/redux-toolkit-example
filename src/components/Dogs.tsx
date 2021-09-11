@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
-import { useFetchBreedsQuery } from '../features/dogs/dogsApiSlice'
+import { useDogs } from '../features/dogs/useDogs'
 
 const Dogs = () => {
   const [numDogs, setNumDogs] = useState(5)
-  const {
-    data = [],
-    isLoading,
-    isError,
-    isFetching,
-  } = useFetchBreedsQuery(numDogs)
+  const { data = [], isError, isFetching } = useDogs(numDogs)
+
   return (
     <>
       <section>
@@ -38,7 +34,6 @@ const Dogs = () => {
           padding: '2em',
         }}
       >
-        {isLoading && <h1>Loading...</h1>}
         {isError && <h1>Error fetching dogs</h1>}
         {data.map((breed) => {
           return (
