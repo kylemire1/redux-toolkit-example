@@ -1,14 +1,33 @@
-import React, { useState } from 'react'
-import { useFetchBreedsQuery } from '../features/dogs/dogsApiSlice'
+import React, { useState, useEffect } from 'react'
+
+interface Breed {
+  id: string
+  name: string
+  image: {
+    url: string
+  }
+}
 
 const Dogs = () => {
+  const [dogs, setDogs] = useState<Array<Breed>>([])
   const [numDogs, setNumDogs] = useState(5)
-  const {
-    data = [],
-    isLoading,
-    isError,
-    isFetching,
-  } = useFetchBreedsQuery(numDogs)
+  const [loadingState, setLoadingState] = useState<'PENDING' | 'LOADING' | 'ERROR'>(
+    'PENDING'
+  )
+  const isLoading = loadingState === 'LOADING'
+  const isError = loadingState === 'ERROR'
+
+  useEffect(() => {
+    setLoadingState('LOADING')
+    fetch(`https://api.thedogapi.com/v1/breeds?limit=${numDogs}`)
+      .then((res) => res.json())
+      .then((result: Array<Breed>) => {
+        setDogs(result)
+        setLoadingState('PENDING')
+      })
+      .catch(() => setLoadingState('ERROR'))
+  }, [numDogs])
+
   return (
     <>
       <section>
@@ -29,7 +48,7 @@ const Dogs = () => {
           <option value='20'>20</option>
         </select>
       </section>
-      {isFetching && <p>Fetching dogs...</p>}
+      {isLoading && <p>Fetching dogs...</p>}
       <section
         style={{
           display: 'grid',
@@ -38,9 +57,8 @@ const Dogs = () => {
           padding: '2em',
         }}
       >
-        {isLoading && <h1>Loading...</h1>}
         {isError && <h1>Error fetching dogs</h1>}
-        {data.map((breed) => {
+        {dogs.map((breed: any) => {
           return (
             <div key={breed.id}>
               <h2>{breed.name}</h2>
