@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useStaleDataUntilSuccess } from '../app/hooks'
 import { useDogs } from '../features/dogs/useDogs'
 
 const Dogs = () => {
   const [numDogs, setNumDogs] = useState(5)
-  const { data = [], isError, isFetching } = useDogs(numDogs)
+  const { dogs, isError } = useDogs(numDogs)
+  const { staleData } = useStaleDataUntilSuccess(dogs)
+  console.log(staleData)
 
   return (
     <>
@@ -25,7 +28,6 @@ const Dogs = () => {
           <option value='20'>20</option>
         </select>
       </section>
-      {isFetching && <p>Fetching dogs...</p>}
       <section
         style={{
           display: 'grid',
@@ -35,7 +37,7 @@ const Dogs = () => {
         }}
       >
         {isError && <h1>Error fetching dogs</h1>}
-        {data.map((breed) => {
+        {(dogs.length > 0 ? dogs : staleData).map((breed) => {
           return (
             <div key={breed.id}>
               <h2>{breed.name}</h2>

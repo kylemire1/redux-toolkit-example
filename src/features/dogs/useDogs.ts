@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-
-interface Breed {
-  id: string
-  name: string
-  image: {
-    url: string
-  }
-}
+import { Breed } from '../../app/models'
 
 export const useDogs = (limit: number = 5) => {
-  const { data, isLoading, isError, isFetching } = useQuery<Breed[], any>(
+  const {
+    data: dogs = [],
+    isLoading,
+    isError,
+    isFetching,
+  } = useQuery<Breed[], any, Breed[], ['dogsData', number]>(
     ['dogsData', limit],
     ({ queryKey: [, limit] }) => {
       const result = fetch(`https://api.thedogapi.com/v1/breeds?limit=${limit}`)
@@ -18,8 +15,9 @@ export const useDogs = (limit: number = 5) => {
         .then((result: Breed[]) => result)
 
       return result
-    }
+    },
+    { refetchOnWindowFocus: false }
   )
 
-  return { data, isLoading, isError, isFetching }
+  return { dogs, isLoading, isError, isFetching }
 }
