@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from './store'
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-export const useStaleDataUntilSuccess = <T extends any[]>(data: T) => {
+export const useStaleData = <T extends any[]>(data: T) => {
   const [staleData, setStaleData] = useState(data)
 
   useEffect(() => {

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { useStaleDataUntilSuccess } from '../app/hooks'
+import React, { useState } from 'react'
+import { useStaleData } from '../app/hooks'
 import { useDogs } from '../features/dogs/useDogs'
 
 const Dogs = () => {
   const [numDogs, setNumDogs] = useState(5)
   const { dogs, isError } = useDogs(numDogs)
-  const { staleData } = useStaleDataUntilSuccess(dogs)
-  console.log(staleData)
+  const { staleData } = useStaleData(dogs)
 
   return (
     <>
