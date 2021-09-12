@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { useStaleData } from '../app/hooks'
 import { useDogs } from '../features/dogs/useDogs'
 
 const Dogs = () => {
   const [numDogs, setNumDogs] = useState(5)
   const { dogs, isError } = useDogs(numDogs)
-  const { staleData } = useStaleData(dogs)
 
   return (
     <>
@@ -36,7 +34,7 @@ const Dogs = () => {
         }}
       >
         {isError && <h1>Error fetching dogs</h1>}
-        {(dogs.length > 0 ? dogs : staleData).map((breed) => {
+        {dogs.map((breed) => {
           return (
             <div key={breed.id}>
               <h2>{breed.name}</h2>
