@@ -2,7 +2,11 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { incremented, amountAdded } from '../features/counter/actions'
 
-function Counter() {
+interface Props {
+  amountToAdd?: number
+}
+
+function Counter({ amountToAdd = 5 }: Props) {
   const dispatch = useDispatch()
   const count = useSelector((state: any) => state.counter.value)
 
@@ -20,8 +24,8 @@ function Counter() {
         count is: {count}
       </button>
       <br />
-      <button type='button' onClick={() => addAmount(5)}>
-        Add 5
+      <button type='button' onClick={() => addAmount(amountToAdd)}>
+        Add {amountToAdd}
       </button>
     </div>
   )
