@@ -7,7 +7,7 @@ function App() {
   return (
     <div className='App'>
       <header className='App-header'>
-        <Counter />
+        <Counter amountToAdd={10} />
       </header>
       <main>
         <Dogs />

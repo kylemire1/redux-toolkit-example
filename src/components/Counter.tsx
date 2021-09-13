@@ -2,7 +2,11 @@ import React from 'react'
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { incremented, amountAdded } from '../features/counter/counterSlice'
 
-function Counter() {
+interface Props {
+  amountToAdd?: number
+}
+
+function Counter({ amountToAdd = 5 }: Props) {
   const dispatch = useAppDispatch()
   const count = useAppSelector((state) => state.counter.value)
 
@@ -13,8 +17,6 @@ function Counter() {
   const addAmount = (value: number) => {
     dispatch(amountAdded(value))
   }
-
-  const amountToAdd = 5
 
   return (
     <div>

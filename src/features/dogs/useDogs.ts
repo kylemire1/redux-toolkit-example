@@ -9,7 +9,6 @@ export const useDogs = (limit: number = 5) => {
     isError,
     isFetching,
   } = useQuery<Breed[]>(['dogsData', limit], () => requests.getBreeds(limit), {
-    refetchOnWindowFocus: false,
     keepPreviousData: true,
   })
   return { dogs, isLoading, isError, isFetching }
