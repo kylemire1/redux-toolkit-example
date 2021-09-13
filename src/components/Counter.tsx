@@ -10,9 +10,11 @@ function Counter() {
     dispatch(incremented())
   }
 
-  const addAmount = (value = 5) => {
+  const addAmount = (value: number) => {
     dispatch(amountAdded(value))
   }
+
+  const amountToAdd = 5
 
   return (
     <div>
@@ -20,8 +22,8 @@ function Counter() {
         count is: {count}
       </button>
       <br />
-      <button type='button' onClick={() => addAmount(5)}>
-        Add 5
+      <button type='button' onClick={() => addAmount(amountToAdd)}>
+        Add {amountToAdd}
       </button>
     </div>
   )

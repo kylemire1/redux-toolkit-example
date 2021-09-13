@@ -1,8 +1,6 @@
-import { QueryFunctionContext, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
+import { requests } from '../../app/api'
 import { Breed } from '../../app/models'
-
-const queryKeyName = 'dogsData'
-type QueryKey = [typeof queryKeyName, number]
 
 export const useDogs = (limit: number = 5) => {
   const {
@@ -10,20 +8,9 @@ export const useDogs = (limit: number = 5) => {
     isLoading,
     isError,
     isFetching,
-  } = useQuery<Breed[], any, Breed[], QueryKey>([queryKeyName, limit], fetchBreeds, {
+  } = useQuery<Breed[]>(['dogsData', limit], () => requests.getBreeds(limit), {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   })
   return { dogs, isLoading, isError, isFetching }
-}
-
-function fetchBreeds(queryFnContext: QueryFunctionContext<QueryKey>) {
-  const {
-    queryKey: [, limit],
-  } = queryFnContext
-  const result = fetch(`https://api.thedogapi.com/v1/breeds?limit=${limit}`)
-    .then((res) => res.json())
-    .then((result: Breed[]) => result)
-
-  return result
 }

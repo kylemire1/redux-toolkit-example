@@ -5,6 +5,7 @@ import App from './App'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
 import { QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { queryClient } from './app/client'
 
 ReactDOM.render(
@@ -12,6 +13,7 @@ ReactDOM.render(
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <App />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </Provider>
   </React.StrictMode>,
